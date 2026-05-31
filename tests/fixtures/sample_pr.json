@@ -1,0 +1,27 @@
+{
+  "action": "opened",
+  "pull_request": {
+    "number": 55,
+    "title": "feat: add support for chunked file uploads",
+    "body": "## Summary\n\nThis PR adds chunked upload support to handle files larger than 10MB without crashing.\n\n## Changes\n\n- Added `ChunkedUploader` class in `src/upload.py`\n- Updated `UploadHandler` to use chunked strategy for files > 5MB\n- Added unit tests for the new uploader\n- Updated API documentation\n\n## Testing\n\n- [ ] Unit tests added\n- [ ] Tested with 50MB file on local environment\n\nCloses #99",
+    "user": {
+      "login": "contributor-1",
+      "id": 67890
+    },
+    "state": "open",
+    "head": {
+      "ref": "feat/chunked-uploads",
+      "sha": "abc123def456"
+    },
+    "base": {
+      "ref": "main"
+    },
+    "created_at": "2026-05-15T14:00:00Z",
+    "updated_at": "2026-05-15T14:00:00Z"
+  },
+  "repository": {
+    "id": 1234567,
+    "name": "example-repo",
+    "full_name": "example-org/example-repo"
+  }
+}

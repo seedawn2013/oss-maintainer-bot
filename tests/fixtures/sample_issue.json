@@ -1,0 +1,21 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 99,
+    "title": "App crashes when uploading large files",
+    "body": "## Describe the bug\n\nWhen I try to upload a file larger than 10MB, the application throws an unhandled exception and crashes.\n\n## Steps to reproduce\n\n1. Go to the upload page\n2. Select a file > 10MB\n3. Click upload\n4. Application crashes with a 500 error\n\n## Expected behavior\n\nThe file should either upload successfully or show a clear error message.\n\n## Environment\n\n- OS: macOS 14.2\n- Python: 3.11.4\n- Version: v1.2.0",
+    "user": {
+      "login": "example-user",
+      "id": 12345
+    },
+    "labels": [],
+    "state": "open",
+    "created_at": "2026-05-01T10:00:00Z",
+    "updated_at": "2026-05-01T10:00:00Z"
+  },
+  "repository": {
+    "id": 1234567,
+    "name": "example-repo",
+    "full_name": "example-org/example-repo"
+  }
+}
