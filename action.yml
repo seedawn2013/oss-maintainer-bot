@@ -1,0 +1,97 @@
+name: 'OSS Maintainer Bot'
+description: 'AI-powered GitHub Action that automates OSS maintenance: auto-labels issues, generates PR summaries, handles stale issues, and creates release notes using OpenAI.'
+author: 'seedawn2013'
+
+branding:
+  icon: 'cpu'
+  color: 'blue'
+
+inputs:
+  github-token:
+    description: 'GitHub token for API access (use secrets.GITHUB_TOKEN)'
+    required: true
+
+  openai-api-key:
+    description: 'OpenAI API key for LLM-powered features'
+    required: true
+
+  model:
+    description: 'OpenAI model to use for analysis and generation'
+    required: false
+    default: 'gpt-4o-mini'
+
+  features:
+    description: |
+      Comma-separated list of features to enable.
+      Options: label-issues, summarize-prs, respond-stale, release-notes, detect-duplicates, all
+    required: false
+    default: 'all'
+
+  stale-days:
+    description: 'Number of days before an issue is considered stale'
+    required: false
+    default: '30'
+
+  label-confidence:
+    description: 'Minimum confidence score (0.0-1.0) required to apply an auto-label'
+    required: false
+    default: '0.7'
+
+  language:
+    description: 'Language for generated comments and summaries (en, zh, ja, es, fr)'
+    required: false
+    default: 'en'
+
+  dry-run:
+    description: 'If true, log all actions without making any GitHub API write calls'
+    required: false
+    default: 'false'
+
+  custom-labels:
+    description: 'JSON string of custom label definitions to use instead of defaults'
+    required: false
+    default: ''
+
+outputs:
+  labels-applied:
+    description: 'Comma-separated list of labels applied in this run'
+
+  prs-summarized:
+    description: 'Number of PRs summarized in this run'
+
+  stale-issues-responded:
+    description: 'Number of stale issues responded to in this run'
+
+  release-notes-generated:
+    description: 'Whether release notes were generated (true/false)'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install -r ${{ github.action_path }}/requirements.txt
+
+    - name: Run OSS Maintainer Bot
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}
+        INPUT_MODEL: ${{ inputs.model }}
+        INPUT_FEATURES: ${{ inputs.features }}
+        INPUT_STALE_DAYS: ${{ inputs.stale-days }}
+        INPUT_LABEL_CONFIDENCE: ${{ inputs.label-confidence }}
+        INPUT_LANGUAGE: ${{ inputs.language }}
+        INPUT_DRY_RUN: ${{ inputs.dry-run }}
+        INPUT_CUSTOM_LABELS: ${{ inputs.custom-labels }}
+        GITHUB_EVENT_NAME: ${{ github.event_name }}
+        GITHUB_EVENT_PATH: ${{ github.event_path }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      run: |
+        python ${{ github.action_path }}/src/main.py
